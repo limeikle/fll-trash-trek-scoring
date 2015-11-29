@@ -74,6 +74,11 @@ div.score {
   font-size: 200%;
   width: 3em;
 }
+#any_mission_error {
+  margin-right: 8px;
+  padding-top: 8px;
+  font-size: 200%;
+}
 div.info-value  {
   background-color: white;
   border-color: black;
@@ -138,22 +143,20 @@ div.mission_section_outer {
     }
 }
 
-button.inc_button {
-    font-weight: 700;
-    margin-right: 2px;
-    padding: 0px 1px 4px 1px;
-    line-height: 1ex;
-    top: -1px;
-    position: relative;
-}
+.mission_button, input[type="checkbox"].mission_button { margin-right: 1ex; }
+.mission_button:hover { cursor: pointer; cursor: hand; }
+//.mission_button.fa { color: #f8f8f8; }
+//.mission_button.fa:hover { color: #888; }
+.mission_button.fa { color: #444; }
+.mission_button.fa:hover { color: #f8f8f8; }
 
 div.mission_section_outer.m_M04b select { width: 4em; }
 
 // general
 
-.red {
-    color: red;
-}
+.red { color: red; }
+.white { color: white; }
+.black { color: black; }
 
 
 /* Responsive: Portrait tablets and up */

@@ -12,9 +12,9 @@ add_mission(col, {
     "Other team's Blues Bin in Safety?",
     ], 
   score: function(q, err) {
-      if ((yes(q[0]) && val('q_M04a_1')!="other_team") || 
-              (yes(q[1]) && val('q_M04a_3')!="other_team")) {
-          err("M04a mismatch");
+      if ((yes(q[0])!=(val('q_M04a_1')=="other_team")) || 
+              (yes(q[1])!=(val('q_M04a_3')=="other_team"))) {
+          err("M04a mismatch", "Is bin in other team's Safety?");
       }
       return 60 * (yes(q[0]) + yes(q[1]) + yes(q[2]) + yes(q[3])); 
   } 
@@ -53,7 +53,8 @@ function add_one_to_dropdown(inc_target, dec_target) {
 }
 
 function inc_button(inc_target, dec_target) {
-  return '<button class="inc_button" onclick="add_one_to_dropdown(\''+inc_target+'\', \''+(dec_target ? dec_target : '')+'\')">+</button>';
+  //return '<img width="16" src="img/misc/plus_white.png" onclick="add_one_to_dropdown(\''+inc_target+'\', \''+(dec_target ? dec_target : '')+'\')"></img>';
+  return '<span class="mission_button fa fa-plus inc_button" onclick="add_one_to_dropdown(\''+inc_target+'\', \''+(dec_target ? dec_target : '')+'\')"></span>';
 }
 
 var num_blues=6;
@@ -90,25 +91,43 @@ add_mission(col, {
 });
 
 var num_blacks=12;
+function auto_reset_blacks() {
+  var sum = 0;
+  for (var i=1; i<=5; i++) sum += val('q_M04b_'+i);
+  $('#q_M04b_0').val(num_blacks-sum);
+  calculate();
+}
+var auto_reset_blacks_button = '<span class="mission_button fa fa-magic auto_reset_blacks_button" onclick="auto_reset_blacks()"'+
+  ' title="Compute blacks in original setup position based on values of other fields."'+
+  '></span>';
+function update_flowerpot() {
+  var old_val = val('q_M04b_3');
+  $('#q_M04b_3').val(''+(2-old_val));
+  $('#q_M04b_0').val(''+(val('q_M04b_0')+(-2+2*old_val)));
+  calculate();
+}
 add_mission(col, {
   id: "M04b", 
   name: "Sorting - Blacks", 
   img: "./img/fll2015/sorting-blacks.png", 
   tasks: [
     { label: "Blacks in Setup position",
-      control: dropdown(_.range(num_blacks+1), num_blacks)
+      control: auto_reset_blacks_button + dropdown(_.range(num_blacks+1), num_blacks)
       },
     { label: "Blacks in Sorter Blacks Bin",
-      control: inc_button('q_M04b_1','q_M04b_0')+dropdown(_.range(num_blacks+1))
+      control: inc_button('q_M04b_1','q_M04b_0')+dropdown(_.range(8+1))
       },
     { label: "Blacks in Landfill Bin",
-      control: inc_button('q_M04b_2','q_M04b_0')+dropdown(_.range(num_blacks+1))
+      control: inc_button('q_M04b_2','q_M04b_0')+dropdown(_.range(8+1))
       },
     { label: "Blacks used in Flower Box",
-      control: inc_button('q_M04b_3','q_M04b_0')+dropdown(_.range(2+1))
+      control: 
+        //'<input style="margin-right: 6px;" type="checkbox" id="q_M04b_3_toggle" onclick="update_flowerpot()"/>'
+        '<span class="mission_button fa fa-magic" onclick="update_flowerpot()"/>'
+        +dropdown([0, 2])
       },
     { label: "Non-penalty Blacks elsewhere",
-      control: inc_button('q_M04b_4','q_M04b_0')+dropdown(_.range(num_blacks+1))
+      control: inc_button('q_M04b_4','q_M04b_0')+dropdown(_.range(8+1))
       },
     { label: "<i>Penalties</i>",
       control: inc_button('q_M04b_5','q_M04b_0')+dropdown(_.range(4+1))
@@ -118,12 +137,47 @@ add_mission(col, {
       var sum = 0;
       for (var i=0; i<=5; i++) sum += val(q[i]);
       if (sum!=num_blacks) {
-        err("miscount");
+        err("miscount", "There should always be a total of 12 blacks");
         console.log("Total of "+sum+" non-penalty blacks; expected "+num_blacks);
+      } else if (val(q[1])+val(q[2])+val(q[3])+val(q[4])>8) {
+        err("miscount", "Max 8 non-penalty blacks");
+      } else {
+        // check setup sensible
+        var min_in_setup = 0, max_in_setup = 0, missions = '';
+        // penalties
+        min_in_setup += 4-val(q[5]);
+        max_in_setup += 4-val(q[5]);
+        if (val(q[5])>0) {
+            missions += ' penalties';
+        }
+        // 2 could come from toy planes, unless both are in safety
+        if (val('q_M11_0')==2) {
+            missions += ' M10';
+        } else {
+            max_in_setup += 2;
+        }
+        // 4 will come if building not demolished
+        if (yes('q_M10_0')) {
+            missions += ' M10';
+        } else {
+            max_in_setup += 4;
+            // might be partially demolished? min_in_setup += 4;
+        }
+        // 2 more could come from sorter, regardless
+        max_in_setup += 2;
+        if (missions!="") {
+            missions = " still in setup, changed due to "+missions;
+        } else {
+            missions = " in setup";
+        }
+        if (val(q[0])<min_in_setup || val(q[0])>max_in_setup) {
+          err("miscount", "Expect between "+min_in_setup+" and "+max_in_setup+" still in setup, changed due to "+missions);
+        } 
       }
+      
       return 8*(val(q[0]) + val(q[3]))
         +3*(val(q[1]) + val(q[2]))
-        -8*(val(q[4]) + val(q[5])); 
+        -8*(val(q[4]) + val(q[5]));
   },
   count_mission: function(q) { return val(q[1])+val(q[2])+val(q[3]) > 0; }
 });
@@ -170,7 +224,10 @@ add_mission(col, {
       },
     "Chicken in small circle",
   ], 
-  score: function(q) {
+  score: function(q, err) {
+    if (yes(q[2]) && val(q[1])==0) {
+      err("chicken in circle", "The chicken in the small circle implies an animal in a cleared circle.");
+    }
     return 30 * val(q[0]) + 20 * val(q[1]) + 35 * yes(q[2]); } 
 });
 
@@ -221,7 +278,10 @@ add_mission(col, {
       control: inc_button("q_M11_0")+dropdown([ 0,1,2 ])
       },
   ], 
-  score: function(q) {
+  score: function(q, err) {
+    if (val('q_M04b_3') && !val(q[0])) {
+      err("M04b mismatch", "Can't make flower-pot if no toy plane purchased");
+    }
     return 40 * val(q[0]);
   } 
 });
@@ -233,7 +293,14 @@ add_mission(col, {
   tasks: [
     "Compost in Toy Plane packaging"
   ], 
-  score: function(q) {
+  score: function(q, err) {
+    if (yes(q[0]) && !yes('q_M08_1')) {
+      err("M08 mismatch", "Can't make flower-pot without compost");
+    } else if (yes(q[0]) && val('q_M11_0')==0) {
+      err("M11 mismatch", "Can't make flower-pot without purchasing toy plane");
+    } else if (!yes(q[0]) && val('q_M04b_3')>0) {
+      err("M04a mismatch", "Can't score for blacks in flower-pot without this mission completed");
+    }
     return 40 * yes(q[0]);
   } 
 });

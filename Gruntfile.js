@@ -352,7 +352,7 @@ module.exports = function (grunt) {
             'img/{,*/}*.{png,jpg,gif}',
             '{,*/}*.html',
             '!{,*/}*.tmpl.html',
-            'styles/fonts/{,*/}*.*'
+            'fonts/{,*/}*.*'
           ]
         }, {
           expand: true,

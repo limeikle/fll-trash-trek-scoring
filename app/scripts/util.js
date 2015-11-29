@@ -6,6 +6,7 @@ function yes(id) {
 function val(id) {
   var v = $('#'+id).val();
   if (v==null) return NaN;
+  //if (v=='on') return 1;
   return isNaN(parseInt(v)) ? v : parseInt(v);
 }
 
@@ -32,11 +33,17 @@ function dropdown(data, reset_value) {
   return s;
 }
 
-function mission_error(mission_id, message) {
+function mission_error(mission_id, message, detail) {
     $('#q_'+mission_id+'_err').html(" &mdash; <b class='red'>"+message+"</b>");
+    if (detail) {
+        $('#q_'+mission_id+'_err').attr("title", detail);
+        console.log(detail);
+    }
+    $('#any_mission_error').show();
 }
 function clear_mission_error(mission_id) {
-    $('#q_'+mission_id+'_err').html(""); 
+    $('#q_'+mission_id+'_err').html("");
+    $('#q_'+mission_id+'_err').removeAttr("title");
 }
 
 /* adds a mission section to the html; first arg is the parent div;
@@ -73,6 +80,7 @@ var score = 0;
 
 function calculate() {
     score = 0; missions = 0;
+    $('#any_mission_error').hide();
     for (var x in score_items) {
         clear_mission_error(x);     
         var score_for_x = score_items[x]();
