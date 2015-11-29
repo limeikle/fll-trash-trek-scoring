@@ -1,0 +1,24 @@
+{
+  "name": "yo1",
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass": "~3.3.5",
+    "underscore": "~1.8.3",
+    "jquery": "~2.1.4",
+    "alt-checkbox": "~1.0.1",
+    "font-awesome": "~4.4.0"
+  },
+  "overrides": {
+    "bootstrap-sass": {
+      "main": [
+        "assets/stylesheets/_bootstrap.scss",
+        "assets/fonts/bootstrap/*",
+        "assets/javascripts/bootstrap.js"
+      ]
+    }
+  },
+  "devDependencies": {
+    "chai": "~3.3.0",
+    "mocha": "~2.3.2"
+  }
+}

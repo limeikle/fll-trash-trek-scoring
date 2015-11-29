@@ -1,0 +1,186 @@
+$icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+
+// bower:scss
+@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "bower_components/font-awesome/scss/font-awesome.scss";
+// endbower
+
+
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  -webkit-font-smoothing: antialiased;
+  
+  background-color: #224468;
+  color: white;
+  
+  font-size: 13px;
+  line-height: normal;
+}
+
+table.whole_app {
+  width: 100%;
+}
+div.whole_app {
+  margin: 36px 54px;
+}
+@media screen and (max-width: 1024px) {
+  margin: 24px 36px;
+}
+
+td.app_col {
+  padding: 0px 10px;
+//  padding-right: 20px;
+}
+@media screen and (max-width: 1024px) {
+  padding: 0px 6px;
+}
+
+// bootstrap overrides
+
+input, select, textarea, text {
+  // hack to prevent chrome from insisting on system default widgets at zoom=1
+  // http://stackoverflow.com/questions/20100437/different-chrome-checkbox-styles
+  zoom: 0.99999;
+}
+input[type=checkbox] {
+  transform: scale(1.5);
+  -ms-transform: scale(1.5); /* IE */
+  -moz-transform: scale(1.5); /* FF */
+  -webkit-transform: scale(1.5); /* Safari and Chrome */
+  -o-transform: scale(1.5); /* Opera */
+  padding: 10px; 
+}
+
+// summary section
+
+div.info-section  { 
+  font-size: 150%;
+  background-color: #d3d0d8;
+  color: #224468;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  padding: 5px;
+  margin-top: 18px;
+  
+  .highlight {
+    background-color: #a080a8;
+    color: white;
+    font-weight: 700;
+  }
+}
+
+div.score {
+  font-size: 200%;
+  width: 3em;
+}
+div.info-value  {
+  background-color: white;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  padding: 4px;
+}
+.section_total {
+  font-weight: 200; 
+  font-style: italic; 
+}
+.mission_total  { 
+  font-weight: 200; 
+  font-style: italic; 
+}
+
+
+// mission boxes
+
+div.mission_section_outer {
+    padding: 3px;
+    margin: 5px;
+    padding-right: 6px;
+    background-color: #d3d0d8;
+    color: #112234;
+  
+    table.section_outer {
+      width: 100%;
+    }
+    td.game-img {
+      padding: 2px;
+      img {
+        width: 96px;
+        border: 1px solid darken(#d3d0d8, 50%);
+        border-radius: 3px;
+        box-shadow: 2px 1px 5px #888888;
+      }
+    } 
+    
+    div.section_inner {
+      padding-left: 12px;
+    }
+    div.mission_header {
+      font-weight: bold;
+      padding-bottom: 4px;
+    }
+    div.mission_label {
+      width: 100%;
+      text-align: left;
+    }
+    div.section_inner {
+      div.mission_row  {
+        padding-bottom: 3px;
+      }      
+      div.mission_label  {
+        width: auto;
+        float: left;
+      }
+      div.mission_control {
+        text-align: right;
+      }
+    }
+}
+
+button.inc_button {
+    font-weight: 700;
+    margin-right: 2px;
+    padding: 0px 1px 4px 1px;
+    line-height: 1ex;
+    top: -1px;
+    position: relative;
+}
+
+div.mission_section_outer.m_M04b select { width: 4em; }
+
+// general
+
+.red {
+    color: red;
+}
+
+
+/* Responsive: Portrait tablets and up */
+#SKIP {
+
+@media screen and (min-width: 768px) {
+  .container {
+  max-width: 730px;
+  }
+
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+  padding-left: 0;
+  padding-right: 0;
+  }
+
+  /* Space out the masthead */
+  .header {
+  margin-bottom: 30px;
+  }
+
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+  border-bottom: 0;
+  }
+}
+
+}
