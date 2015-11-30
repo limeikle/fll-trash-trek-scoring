@@ -17,23 +17,15 @@ body {
   line-height: normal;
 }
 
-table.whole_app {
-  width: 100%;
-}
-div.whole_app {
-  margin: 36px 54px;
-}
-@media screen and (max-width: 1024px) {
-  margin: 24px 36px;
-}
+div.whole_app { margin: 36px 54px; }
 
-td.app_col {
+div.app_column {
   padding: 0px 10px;
-//  padding-right: 20px;
+  vertical-align: top;
+  display: inline-block;
 }
-@media screen and (max-width: 1024px) {
-  padding: 0px 6px;
-}
+div.app_column { width: 32%; }
+
 
 // bootstrap overrides
 
@@ -53,6 +45,13 @@ input[type=checkbox] {
 
 // summary section
 
+div.header_column {
+  margin-bottom: 24px;
+}
+div#summary_title_section, div#summary_score_section, div.scores_section { 
+  margin: 0 12px;
+}
+ 
 div.info-section  { 
   font-size: 150%;
   background-color: #d3d0d8;
@@ -159,31 +158,63 @@ div.mission_section_outer.m_M04b select { width: 4em; }
 .black { color: black; }
 
 
-/* Responsive: Portrait tablets and up */
-#SKIP {
+/* Responsive */
 
-@media screen and (min-width: 768px) {
-  .container {
-  max-width: 730px;
-  }
-
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-  padding-left: 0;
-  padding-right: 0;
-  }
-
-  /* Space out the masthead */
-  .header {
-  margin-bottom: 30px;
-  }
-
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-  border-bottom: 0;
-  }
+@media screen and (min-width: 1600px) {
+  div.app_column.header_column { width: 36%; }
+  div.app_column.missions_column { width: 30%; }
 }
-
+@media screen and (min-width: 1320px) and (max-width: 1600px) {
+  // default of 32% each column is fine
+  div.whole_app { margin: 24px 36px; }
+}
+@media screen and (min-width: 1400px) and (max-width: 1650px) {
+  div#summary_title_section img { width: 75%; }
+}
+@media screen and (min-width: 1050px) and (max-width: 1319px) {
+  div.app_column.header_column { width: 26%; }
+  div.app_column.missions_column { width: 36%; }
+  div.whole_app { margin: 24px 20px; }
+  div.app_column { padding: 0px 4px; }
+}
+@media screen and (min-width: 1050px) and (max-width: 1129px) {
+  div#summary_title_section img { width: 75%; }
+  div.info-section { padding: 5px 0; }
+}
+@media screen and (max-width: 1050px) {
+  // below 1050 header is shown above
+  div.app_column.header_column { width: 100%; }
+  div#summary_title_section, div#summary_score_section, div.scores_section { 
+    display: inline-block;
+  }
+  div#summary_score_section, div.scores_section {
+    vertical-align: top;
+    padding-top: 20px;
+  }
+  div#summary_title_section div.text { display: none; }
+  div.info-section.team-name { margin-top: 0px; }
+}
+@media screen and (min-width: 600px) and (max-width: 800px) {
+  div#summary_title_section div.text { display: inherit; }
+}
+@media screen and (min-width: 700px) and (max-width: 1049px) {
+  // in this range we go double column
+  div.app_column.missions_column { width: 48%; }
+  div.whole_app { margin: 20px 16px; }
+}
+@media screen and (max-width: 950px) {
+  div.app_column { padding: 0px 4px; }
+  div.whole_app { margin: 16px 8px; }
+}
+@media screen and (min-width: 700px) and (max-width: 799px) {
+  // in this range we hide images
+  .game-img img { display: none; }
+  table.section_outer { min-height: 75px; }
+}
+@media screen and (max-width: 699px) {
+  // make 1 column
+  div.app_column.missions_column { width: 100%; }
+}
+@media screen and (max-width: 399px) {
+  .game-img img { display: none; }
 }

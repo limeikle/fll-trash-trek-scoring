@@ -127,14 +127,14 @@ function reset() {
         
     calculate();
     
-    document.getElementById('scores_section').style.visibility = 
-        (document.getElementById('scores_table').innerHTML ? 'visible' : 'hidden')
+    document.getElementById('scores_section').style.display = 
+        (document.getElementById('scores_table').innerHTML ? 'inherit' : 'none')
 }
 
 function clear_scores() {
     document.getElementById('scores_table').innerHTML = ''
-    document.getElementById('scores_section').style.visibility = 
-        (document.getElementById('scores_table').innerHTML ? 'visible' : 'hidden')
+    document.getElementById('scores_section').style.display = 
+        (document.getElementById('scores_table').innerHTML ? 'inherit' : 'none')
 }
 
 function initialize() {
