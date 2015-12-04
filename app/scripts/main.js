@@ -6,16 +6,36 @@ add_mission(col, {
   name: "Recycling", 
   img: "./img/fll2015/recycling.jpg", 
   tasks: [
-    "Yellows Bin in other team's Safety?",
-    "Blues Bin in other team's Safety?",
-    "Other team's Yellows Bin in Safety?",
-    "Other team's Blues Bin in Safety?",
+    "Yellows Bin w bar in other team's Safety?",
+    "Blues Bin w bar in other team's Safety?",
+    "Other team's Yellows Bin w bar in Safety?",
+    "Other team's Blues Bin w bar in Safety?",
     ], 
   score: function(q, err) {
-      if ((yes(q[0])!=(val('q_M04a_1')=="other_team")) || 
-              (yes(q[1])!=(val('q_M04a_3')=="other_team"))) {
-          err("M04a mismatch", "Is bin in other team's Safety?");
+      var q4_says_yellows_at_other_teams_safety = (val('q_M04a_1')=="other_team");
+      var q4_says_blues_at_other_teams_safety = (val('q_M04a_3')=="other_team");
+      var q4_says_yellows_bin_nonempty = (val('q_M04a_0')>0);
+      var q4_says_blues_bin_nonempty = (val('q_M04a_2')>0);
+      
+      if (yes(q[0])) {
+        if (!q4_says_yellows_at_other_teams_safety)
+          err("M04a mismatch", "Is Yellows Bin in other team's Safety?");
+        if (!q4_says_yellows_bin_nonempty)
+          err("M04a mismatch", "Is Yellows Bin empty?");
+      } else {
+        if (q4_says_yellows_at_other_teams_safety && q4_says_yellows_bin_nonempty)
+          err("M04a mismatch", "Should score points for yellows bin");
       }
+      if (yes(q[1])) {
+        if (!q4_says_blues_at_other_teams_safety)
+          err("M04a mismatch", "Is Blues Bin in other team's Safety?");
+        if (!q4_says_blues_bin_nonempty)
+          err("M04a mismatch", "Blues Bin is empty");
+      } else {
+        if (q4_says_blues_at_other_teams_safety && q4_says_blues_bin_nonempty)
+          err("M04a mismatch", "Should score points for Blues Bin");
+      }
+
       return 60 * (yes(q[0]) + yes(q[1]) + yes(q[2]) + yes(q[3])); 
   } 
 });
