@@ -8,6 +8,8 @@ This is a scoring app for the First Lego League Trash Trek robot missions
 
 To use, go to **[limeikle.github.io/fll-trash-trek-scoring/](http://limeikle.github.com/fll-trash-trek-scoring/)**
 
+A PDF score sheet with the same questions and the same order can be found [here](score-sheet/).
+
 Any comments, please let us know at **info@lambdajam.org** .  Good luck teams!
 
 
@@ -18,6 +20,8 @@ Once you've set up your environment (see below):
 
 * To test it locally, run `grunt serve`. 
 * To build, run `grunt build`. The output will be in `dist`.
+
+The source for the PDF score sheet is an OmniGraffle file in the same folder.
 
 
 ## To setup 
